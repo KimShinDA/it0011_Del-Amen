@@ -1,0 +1,25 @@
+FirstName = input("\nEnter First Name: ")
+
+LastName = input("\nEnter Last Name: ")
+
+MiddleName = input("\nEnter Middle Name: ")
+
+Birthday = input("\nEnter Birthday Ex. (04/06/05): ")
+
+Gender = input("\nEnter Gender Male/Female: ")
+
+Address = input("\nEnter Address: ")
+
+Course = input("\nEnter Course: ")
+
+YearLevel = input("\nEnter Year Level: ")
+
+print("\nPersonal Information")
+print("First Name: ", FirstName)
+print("Last Name: ", LastName)
+print("Middle Name: ", MiddleName)
+print("Birthday: ", Birthday)
+print("Gender: ", Gender)
+print("Address: ", Address)
+print("Course: ", Course)
+print("Year Level: ", YearLevel)
