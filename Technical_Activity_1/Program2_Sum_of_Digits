@@ -1,0 +1,21 @@
+
+digits = '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
+
+
+stringDigits = input("Enter any string digits: ")
+
+totalSum = 0
+for char in stringDigits:
+        if char in digits:
+            if stringDigits.isdigit():
+                totalSum += int(char)
+            else:
+                print("Please enter a valid string containing only digits.")
+        
+result = f"""=======================================================
+| String Digits: {stringDigits} |
+=======================================================
+|  Total Sum     : {totalSum}         |
+=======================================================
+""" 
+print(result)
