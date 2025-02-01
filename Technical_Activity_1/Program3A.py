@@ -1,7 +1,5 @@
-num = 1
-
-for i in range(1, 6):  
-    print(' ' * (5 - i), end='') 
-    for j in range(1, i + 1):  
-        print(j, end='')  
+for rows in range(1, 6):  
+    print(' ' * (5 - rows), end='') 
+    for col in range(1, rows + 1):  
+        print(col, end='')  
     print()  
