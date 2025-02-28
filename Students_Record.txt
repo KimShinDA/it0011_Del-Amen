@@ -1,0 +1,32 @@
+Student ID: 202312
+Student Name: Kim Del Amen
+Class Standing: 99.0
+Major Exam Grade: 100.0
+Student ID: 202315
+Student Name: Alexa Cueto
+Class Standing: 97.0
+Major Exam Grade: 98.0
+Student ID: 202314
+Student Name: Tara Gerones
+Class Standing: 95.0
+Major Exam Grade: 97.0
+Student ID: 202319
+Student Name: Norwood Banzuela
+Class Standing: 93.0
+Major Exam Grade: 95.0
+Student ID: 202318
+Student Name: Paul Collo
+Class Standing: 92.0
+Major Exam Grade: 93.0
+Student ID: 202313
+Student Name: Janna Quiban
+Class Standing: 90.0
+Major Exam Grade: 95.0
+Student ID: 202317
+Student Name: Charles Pua
+Class Standing: 91.0
+Major Exam Grade: 92.0
+Student ID: 202316
+Student Name: Sheryll Baccay
+Class Standing: 90.0
+Major Exam Grade: 90.0
