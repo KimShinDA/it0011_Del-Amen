@@ -36,10 +36,10 @@ class ItemCon:
             open(self.FILE_NAME, "w", encoding="utf-8").close()
 
     def save_items(self):
-        """Saves items to the file using UTF-8 encoding."""
+        """Saves items to the file"""
         with open(self.FILE_NAME, "w", encoding="utf-8") as file:
             for item in self.items:
-                file.write(str(item) + "\n")
+                file.write(str(item) + "=" * 36 + "\n")
 
     def create_item(self, name, description, price):
         """Creates and stores an item in the file."""
@@ -64,8 +64,9 @@ class ItemCon:
             return
 
         for item in self.items:
-            print(item)
-            print("=" * 40)
+            print(f"{item}{'=' * 36}")  
+
+
 
     def update_item(self, item_id, name, description, price):
         """Updates an existing item."""
@@ -107,7 +108,7 @@ class ItemCon:
 
         print("=== Item not found. ===")
 
-# Simple CLI for testing
+# Option display
 def main():
     con = ItemCon()
     

@@ -1,5 +1,10 @@
 ID: 1
-Name: Perfume
+Name: perfume
 Description: powdery scent
-Price (₱): 123.00
-
+Price (₱): 189.99
+====================================
+ID: 2
+Name: Sofa
+Description: leather cover
+Price (₱): 32500.49
+====================================
