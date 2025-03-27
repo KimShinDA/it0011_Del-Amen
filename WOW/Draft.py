@@ -49,11 +49,11 @@ class SignUpForm:
         signup_window = tk.Toplevel(self.root)
         signup_window.title("Sign-Up Form")
         signup_window.geometry("500x500")
-        signup_window.configure(bg="#ffffff")
+        signup_window.configure(bg="#F2EFE7")
         signup_window.resizable(False, False)
 
         # Header Frame
-        header_frame = tk.Frame(signup_window, bg="#2ecc71")
+        header_frame = tk.Frame(signup_window, bg="#006A71")
         header_frame.pack(fill="x", pady=(0, 20))
 
         # Header Label
@@ -61,14 +61,14 @@ class SignUpForm:
             header_frame, 
             text="Sign-Up Form", 
             font=("Arial", 16, "bold"), 
-            bg="#2ecc71", 
+            bg="#006A71", 
             fg="white",
             padx=20,
             pady=10
         ).pack()
 
         # Form Frame
-        form_frame = tk.Frame(signup_window, bg="#ffffff")
+        form_frame = tk.Frame(signup_window, bg="#F2EFE7")
         form_frame.pack(padx=30, pady=30)
 
         # Form Fields (Text Fields)
@@ -80,7 +80,7 @@ class SignUpForm:
             tk.Label(
                 form_frame, 
                 text=field + ":", 
-                bg="#ffffff",
+                bg="#F2EFE7",
                 font=("Arial", 10),
                 anchor="w"
             ).grid(row=i, column=0, pady=5, sticky="w")
@@ -91,8 +91,8 @@ class SignUpForm:
                 bd=1,
                 relief=tk.SOLID,
                 highlightthickness=1,
-                highlightbackground="#bdc3c7",
-                highlightcolor="#3498db"
+                highlightbackground="#9ACBD0",
+                highlightcolor="#48A6A7"
             )
             entries[field].grid(row=i, column=1, pady=5, ipady=5, sticky="ew")
             
@@ -102,12 +102,12 @@ class SignUpForm:
         tk.Label(
             form_frame, 
             text="Birthday:", 
-            bg="#ffffff",
+            bg="#F2EFE7",
             font=("Arial", 10),
             anchor="w"
         ).grid(row=birthday_row, column=0, pady=5, sticky="w")
 
-        birthday_frame = tk.Frame(form_frame, bg="#ffffff")
+        birthday_frame = tk.Frame(form_frame, bg="#F2EFE7")
         birthday_frame.grid(row=birthday_row, column=1, pady=5, sticky="w")
 
         # Month Dropdown
@@ -137,12 +137,12 @@ class SignUpForm:
         tk.Label(
             form_frame, 
             text="Gender:", 
-            bg="#ffffff",
+            bg="#F2EFE7",
             font=("Arial", 10),
             anchor="w"
         ).grid(row=gender_row, column=0, pady=5, sticky="w")
 
-        gender_frame = tk.Frame(form_frame, bg="#ffffff")
+        gender_frame = tk.Frame(form_frame, bg="#F2EFE7")
         gender_frame.grid(row=gender_row, column=1, pady=5, sticky="w")
 
         gender_var = tk.StringVar(value="0")  
@@ -152,7 +152,7 @@ class SignUpForm:
             text="Male",
             variable=gender_var,
             value="M",
-            bg="#ffffff",
+            bg="#F2EFE7",
             font=("Arial", 10)
         ).pack(side="left", padx=(0, 10))
 
@@ -161,7 +161,7 @@ class SignUpForm:
             text="Female",
             variable=gender_var,
             value="F",
-            bg="#ffffff",
+            bg="#F2EFE7",
             font=("Arial", 10)
         ).pack(side="left")
 
@@ -169,29 +169,38 @@ class SignUpForm:
 
         # Save Record Function
         def save_record():
-            data = {field: entries[field].get().strip() for field in fields} # Get form data
-            data["Gender"] = gender_var.get() 
+            data = {field: entries[field].get().strip() for field in fields}  # Get form data
+            data["Gender"] = gender_var.get()  # Get gender
 
             # Validate birthday field
             if "Birthday" in entries:
                 month_var, day_var, year_var = entries["Birthday"]
-                data["Birthday"] = f"{month_var.get()}-{day_var.get()}-{year_var.get()}"
+                month, day, year = month_var.get(), day_var.get(), year_var.get()
+
+                # Check if any birthday dropdown is empty
+                if not month or not day or not year:
+                    messagebox.showerror("Error", "Birthday is required.")
+                    return
+
+                data["Birthday"] = f"{month}-{day}-{year}"
             else:
                 messagebox.showerror("Error", "Birthday field is missing!")
                 return
 
-            # Validate form fields
-            # Note that Middle Name is optional as it can be empty
+            # Validate form fields (First and Last Name are required)
             if not data["First Name"] or not data["Last Name"]:
                 messagebox.showerror("Error", "First and Last Name are required.")
                 return
-            
-            # Gender validation
-            gender = data["Gender"].upper()
-            gender_full = "Male" if gender == "M" else "Female"
-            
-            record_number = self.record_manager.count_existing_records() + 1 # Get record number
-            unique_id = "2025" + str(record_number).zfill(5) # Generate unique ID starting with 2025 and padded with zeros to 5 digits
+
+            # Validate Gender (Make sure it's selected)
+            if data["Gender"] not in ["M", "F"]:
+                messagebox.showerror("Error", "Gender is required.")
+                return
+
+            gender_full = "Male" if data["Gender"] == "M" else "Female"
+
+            record_number = self.record_manager.count_existing_records() + 1  # Get record number
+            unique_id = "2025" + str(record_number).zfill(5)  # Generate unique ID
 
             # Save record to file
             with open(self.record_manager.file_name, "a") as file:
@@ -205,7 +214,7 @@ class SignUpForm:
             signup_window.destroy()
 
         # Button Frame
-        button_frame = tk.Frame(signup_window, bg="#ffffff")
+        button_frame = tk.Frame(signup_window, bg="#F2EFE7")
         button_frame.pack(pady=20)
 
         # Save and Cancel Buttons
@@ -213,7 +222,7 @@ class SignUpForm:
             button_frame, 
             text="Save Record", 
             command=save_record, 
-            bg="#2ecc71", 
+            bg="#48A6A7", 
             fg="white",
             font=("Arial", 10, "bold"),
             padx=20,
@@ -221,33 +230,38 @@ class SignUpForm:
             relief=tk.RAISED,  
             highlightthickness=0,
             bd=1,  
-            highlightbackground="#cccccc", 
-            highlightcolor="#333333"
+            highlightbackground="#9ACBD0", 
+            highlightcolor="#006A71"
         )
         save_button.pack(side="left", padx=10)
 
         cancel_button = tk.Button(
-            button_frame, 
-            text="Cancel", 
-            command=signup_window.destroy, 
-            bg="#95a5a6", 
-            fg="white",
+            button_frame,
+            text="Cancel",
+            bg="#9ACBD0",
+            fg="#006A71",
             font=("Arial", 10, "bold"),
             padx=20,
             pady=5,
-            relief=tk.RAISED,  
+            relief=tk.RAISED,
             highlightthickness=0,
-            bd=1,  
-            highlightbackground="#cccccc", 
-            highlightcolor="#333333"
+            bd=1,
+            highlightbackground="#cccccc",
+            highlightcolor="#333333",
+            command=lambda: (
+                signup_window.destroy() if all(
+                    not entries[field].get().strip() for field in fields
+                ) and not any(var.get() for var in entries["Birthday"]) and gender_var.get() not in ["M", "F"]
+                else messagebox.askyesno("Unsaved Changes", "You have unsaved changes. Do you want to exit?") and signup_window.destroy()
+            )
         )
         cancel_button.pack(side="left", padx=10)
 
         # Hover Effects for Buttons 
-        save_button.bind("<Enter>", lambda e: save_button.config(bg="#27ae60"))
-        save_button.bind("<Leave>", lambda e: save_button.config(bg="#2ecc71"))
-        cancel_button.bind("<Enter>", lambda e: cancel_button.config(bg="#7f8c8d"))
-        cancel_button.bind("<Leave>", lambda e: cancel_button.config(bg="#95a5a6"))
+        save_button.bind("<Enter>", lambda e: save_button.config(bg="#006A71"))
+        save_button.bind("<Leave>", lambda e: save_button.config(bg="#48A6A7"))
+        cancel_button.bind("<Enter>", lambda e: cancel_button.config(bg="#48A6A7"))
+        cancel_button.bind("<Leave>", lambda e: cancel_button.config(bg="#9ACBD0"))
 
 # Handles viewing of records.
 class ViewRecords:
@@ -266,10 +280,11 @@ class ViewRecords:
         view_window = tk.Toplevel(self.root)
         view_window.title("View Records")
         view_window.geometry("700x600")
-        view_window.configure(bg="#ffffff")
+        view_window.configure(bg="#F2EFE7")
+        view_window.resizable(False, False)
 
         # Header Frame
-        header_frame = tk.Frame(view_window, bg="#3498db")
+        header_frame = tk.Frame(view_window, bg="#006A71")
         header_frame.pack(fill="x")
 
         # Header Label
@@ -277,14 +292,14 @@ class ViewRecords:
             header_frame, 
             text="All Records", 
             font=("Arial", 14, "bold"), 
-            bg="#3498db", 
+            bg="#006A71", 
             fg="white",
             padx=20,
             pady=10
         ).pack()
 
         # Text Frame
-        text_frame = tk.Frame(view_window, bg="#ffffff")
+        text_frame = tk.Frame(view_window, bg="#F2EFE7")
         text_frame.pack(expand=True, fill="both", padx=20, pady=20)
 
         # Text Area
@@ -322,11 +337,11 @@ class SearchRecord:
         search_window = tk.Toplevel(self.root)
         search_window.title("Search Record")
         search_window.geometry("500x400")
-        search_window.configure(bg="#ffffff")
+        search_window.configure(bg="#F2EFE7")
         search_window.resizable(False, False)
 
         # Header Frame
-        header_frame = tk.Frame(search_window, bg="#f39c12")
+        header_frame = tk.Frame(search_window, bg="#48A6A7")
         header_frame.pack(fill="x")
 
         # Header Label
@@ -334,20 +349,20 @@ class SearchRecord:
             header_frame, 
             text="Search Record", 
             font=("Arial", 14, "bold"), 
-            bg="#f39c12", 
+            bg="#48A6A7", 
             fg="white",
             padx=20,
             pady=10
         ).pack()
 
-        search_frame = tk.Frame(search_window, bg="#ffffff")
+        search_frame = tk.Frame(search_window, bg="#F2EFE7")
         search_frame.pack(pady=20, padx=30)
 
         tk.Label(
             search_frame, 
             text="Enter ID to search:", 
             font=("Arial", 10),
-            bg="#ffffff"
+            bg="#F2EFE7"
         ).grid(row=0, column=0, sticky="w")
 
         # Search Entry
@@ -365,7 +380,7 @@ class SearchRecord:
             search_frame, 
             text="Search", 
             command=lambda: self.perform_search(search_entry, result_text),
-            bg="#f39c12", 
+            bg="#48A6A7", 
             fg="white",
             font=("Arial", 10, "bold"),
             padx=15,
@@ -373,13 +388,13 @@ class SearchRecord:
             relief=tk.RAISED,  
             highlightthickness=0,
             bd=1,  
-            highlightbackground="#cccccc", 
-            highlightcolor="#333333"
+            highlightbackground="#9ACBD0", 
+            highlightcolor="#006A71"
         )
         search_button.grid(row=1, column=1, padx=10)
 
         # Result Frame
-        result_frame = tk.Frame(search_window, bg="#ffffff")
+        result_frame = tk.Frame(search_window, bg="#F2EFE7")
         result_frame.pack(expand=True, fill="both", padx=30, pady=(0, 20))
 
         # Result Text Area
@@ -395,8 +410,8 @@ class SearchRecord:
         result_text.pack(expand=True, fill="both")
 
         # Hover Effects for Search Button
-        search_button.bind("<Enter>", lambda e: search_button.config(bg="#e67e22"))
-        search_button.bind("<Leave>", lambda e: search_button.config(bg="#f39c12"))
+        search_button.bind("<Enter>", lambda e: search_button.config(bg="#006A71"))
+        search_button.bind("<Leave>", lambda e: search_button.config(bg="#48A6A7"))
 
     # Perform search operation
     def perform_search(self, search_entry, result_text):
@@ -450,8 +465,9 @@ class RecordLogsGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Record Management System")
+        self.root.resizable(False, False)
         self.root.geometry("420x300")
-        self.root.configure(bg="#f0f2f5")
+        self.root.configure(bg="#F2EFE7")
 
         # Initialize other classes
         self.record_manager = RecordChecker()
@@ -461,26 +477,26 @@ class RecordLogsGUI:
         self.confirm_exit = ConfirmExit(self.root)
 
         # Main Frame
-        self.main_frame = tk.Frame(root, bg="#f0f2f5", padx=20, pady=20)
+        self.main_frame = tk.Frame(root, bg="#F2EFE7", padx=20, pady=20)
         self.main_frame.pack(expand=True, fill="both")
 
         # Header Section 
-        self.header_frame = tk.Frame(self.main_frame, bg="#f0f2f5")
+        self.header_frame = tk.Frame(self.main_frame, bg="#F2EFE7")
         self.header_frame.pack(fill="x", pady=(0, 20))
 
         self.label = tk.Label(
             self.header_frame, 
             text="Record Management System", 
             font=("Arial", 20, "bold"), 
-            bg="#f0f2f5", 
-            fg="#2c3e50"
+            bg="#F2EFE7", 
+            fg="#006A71"
         )
         self.label.pack(side="left")
 
         ttk.Separator(self.main_frame, orient="horizontal").pack(fill="x", pady=5)
 
         # Button Frame
-        self.button_frame = tk.Frame(self.main_frame, bg="#f0f2f5")
+        self.button_frame = tk.Frame(self.main_frame, bg="#F2EFE7")
         self.button_frame.pack(pady=20)
 
         # Button Style 
@@ -493,8 +509,8 @@ class RecordLogsGUI:
             "relief": tk.RAISED,  
             "highlightthickness": 0,
             "bd": 1,  
-            "highlightbackground": "#cccccc", 
-            "highlightcolor": "#333333"  
+            "highlightbackground": "#9ACBD0", 
+            "highlightcolor": "#006A71"  
         }
 
         # Create buttons grid 
@@ -502,7 +518,7 @@ class RecordLogsGUI:
             self.button_frame, 
             text="Sign-up", 
             command=self.sign_up.open_signup_window, 
-            bg="#2ecc71", 
+            bg="#006A71", 
             fg="white",
             **button_style
         )
@@ -510,7 +526,7 @@ class RecordLogsGUI:
             self.button_frame, 
             text="View All Records", 
             command=self.view_records.open_view_window, 
-            bg="#3498db", 
+            bg="#006A71", 
             fg="white",
             **button_style
         )
@@ -518,7 +534,7 @@ class RecordLogsGUI:
             self.button_frame, 
             text="Search Record", 
             command=self.search_record.open_search_window, 
-            bg="#f39c12", 
+            bg="#006A71", 
             fg="white",
             **button_style
         )
@@ -526,7 +542,7 @@ class RecordLogsGUI:
             self.button_frame, 
             text="Exit", 
             command=self.confirm_exit.confirm_exit,
-            bg="#e74c3c", 
+            bg="#48A6A7", 
             fg="white",
             **button_style
         )
@@ -547,14 +563,14 @@ class RecordLogsGUI:
             button['relief'] = tk.RAISED
 
         # Bind hover effects
-        self.btn_signup.bind("<Enter>", lambda e: on_enter(e, self.btn_signup, "#27ae60"))
-        self.btn_signup.bind("<Leave>", lambda e: on_leave(e, self.btn_signup, "#2ecc71"))
-        self.btn_view.bind("<Enter>", lambda e: on_enter(e, self.btn_view, "#2980b9"))
-        self.btn_view.bind("<Leave>", lambda e: on_leave(e, self.btn_view, "#3498db"))
-        self.btn_search.bind("<Enter>", lambda e: on_enter(e, self.btn_search, "#e67e22"))
-        self.btn_search.bind("<Leave>", lambda e: on_leave(e, self.btn_search, "#f39c12"))
-        self.btn_exit.bind("<Enter>", lambda e: on_enter(e, self.btn_exit, "#c0392b"))
-        self.btn_exit.bind("<Leave>", lambda e: on_leave(e, self.btn_exit, "#e74c3c"))
+        self.btn_signup.bind("<Enter>", lambda e: on_enter(e, self.btn_signup, "#48A6A7"))
+        self.btn_signup.bind("<Leave>", lambda e: on_leave(e, self.btn_signup, "#006A71"))
+        self.btn_view.bind("<Enter>", lambda e: on_enter(e, self.btn_view, "#48A6A7"))
+        self.btn_view.bind("<Leave>", lambda e: on_leave(e, self.btn_view, "#006A71"))
+        self.btn_search.bind("<Enter>", lambda e: on_enter(e, self.btn_search, "#48A6A7"))
+        self.btn_search.bind("<Leave>", lambda e: on_leave(e, self.btn_search, "#006A71"))
+        self.btn_exit.bind("<Enter>", lambda e: on_enter(e, self.btn_exit, "#006A71"))
+        self.btn_exit.bind("<Leave>", lambda e: on_leave(e, self.btn_exit, "#48A6A7"))
 
 # Main function
 # Create the root window and the RecordLogsGUI instance
